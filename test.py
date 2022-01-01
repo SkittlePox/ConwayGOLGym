@@ -14,7 +14,9 @@ def simple_test():
 
 
 def run_test():
+    # env = ConwayEnv(state_shape=(16, 16), goal_location=(8, 8))
     env = ConwayEnv()
+    env.reset()
     plt.figure()
     img_plot = plt.imshow(env.state, interpolation="nearest", cmap=plt.cm.gray)
     plt.show(block=False)
@@ -23,7 +25,7 @@ def run_test():
         rrr = env.step(action)
         img_plot.set_data(rrr[0])
         plt.draw()
-        plt.pause(0.1)
+        plt.pause(0.5)
         if rrr[2]:
             # break
             env.reset()
