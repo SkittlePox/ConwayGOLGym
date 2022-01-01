@@ -5,7 +5,7 @@ from lib import fft_convolve2d
 
 class ConwayEnv(gym.Env):
 
-    def __init__(self, action_shape=(3, 3), state_shape=(8, 8), goal_location=(5, 5), start_state=None, k=None):
+    def __init__(self, action_shape=(3, 3), state_shape=(10, 10), goal_location=(6, 6), start_state=None, k=None):
         """
         state_shape dimensions must be even!!
         """
@@ -31,7 +31,6 @@ class ConwayEnv(gym.Env):
         # apply actions
         np.logical_xor(action, self.action_view, out=self.action_view, dtype=np.int8, casting='unsafe')
 
-        # Shit there is environment wrap-around. TODO: Fix it
         b = fft_convolve2d(self.state, self.k).round()
         c = np.zeros(b.shape)
 
@@ -39,6 +38,10 @@ class ConwayEnv(gym.Env):
         c[np.where((b == 3) & (self.state == 1))] = 1
 
         c[np.where((b == 3) & (self.state == 0))] = 1
+
+        # Shit there is environment wrap-around. This fixes it
+        c[:, [0, -1]] = c[[0, -1]] = 0
+
         self.state = c.astype(np.int8)
         self.state_reset()
 
@@ -52,7 +55,7 @@ class ConwayEnv(gym.Env):
         return self.state, reward, done, {}
 
     def state_reset(self):
-        self.action_view = self.state[1:1 + self.action_shape[0], 1:1 + self.action_shape[1]]
+        self.action_view = self.state[2:2 + self.action_shape[0], 2:2 + self.action_shape[1]]
         self.goal_view = self.state[self.goal_location[0]:self.goal_location[0] + 2,
                          self.goal_location[1]:self.goal_location[1] + 2]
 
