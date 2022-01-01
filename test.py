@@ -3,6 +3,7 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3 import PPO
 import matplotlib.pyplot as plt
 import numpy as np
+from lib.lib import load_text_board
 
 plt.ion()
 
@@ -14,7 +15,7 @@ def simple_test():
 
 
 def run_test():
-    env = ConwayEnv(state_shape=(24, 24), goal_location=(16, 16))
+    env = ConwayEnv(state_shape=(36, 36), goal_location=(26, 26))
     # env = ConwayEnv()
     env.reset()
     plt.figure()
@@ -60,12 +61,12 @@ def evaluate(model, env, num_steps=1000):
 
 
 def sb3_test():
-    state_shape = (24, 24)
+    state_shape = (36, 36)
 
-    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=(16, 16))))
+    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=(26, 26))))
     model = PPO("MlpPolicy", env, verbose=1)
     evaluate(model, env, num_steps=1000)
-    model.learn(total_timesteps=50000, log_interval=4)
+    model.learn(total_timesteps=200000, log_interval=4)
 
     evaluate(model, env, num_steps=1000)
 
@@ -84,6 +85,10 @@ def sb3_test():
         if done:
             # break
             obs = env.reset()
+
+
+def board_read_test():
+    load_text_board("starting_boards/classic.txt")
 
 
 if __name__ == '__main__':

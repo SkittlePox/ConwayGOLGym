@@ -16,6 +16,7 @@ class ConwayEnv(gym.Env):
 
         if start_state is None:
             start_state = np.zeros(state_shape, dtype=np.int8)
+        self.start_state = np.copy(start_state)
         self.state = start_state
         self.goal_location = goal_location
         self.state_reset()
@@ -60,8 +61,8 @@ class ConwayEnv(gym.Env):
                          self.goal_location[1]:self.goal_location[1] + 2]
 
     def reset(self):
-        start_state = np.zeros(self.state_shape, dtype=np.int8)
-        self.state = start_state
+        # start_state = np.zeros(self.state_shape, dtype=np.int8)
+        self.state = np.copy(self.start_state)
         self.state_reset()
         self.goal_view.fill(1)
         return self.state
