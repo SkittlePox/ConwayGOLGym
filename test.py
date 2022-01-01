@@ -14,8 +14,8 @@ def simple_test():
 
 
 def run_test():
-    # env = ConwayEnv(state_shape=(16, 16), goal_location=(8, 8))
-    env = ConwayEnv()
+    env = ConwayEnv(state_shape=(24, 24), goal_location=(16, 16))
+    # env = ConwayEnv()
     env.reset()
     plt.figure()
     img_plot = plt.imshow(env.state, interpolation="nearest", cmap=plt.cm.gray)
@@ -25,7 +25,7 @@ def run_test():
         rrr = env.step(action)
         img_plot.set_data(rrr[0])
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(0.2)
         if rrr[2]:
             # break
             env.reset()
@@ -60,30 +60,31 @@ def evaluate(model, env, num_steps=1000):
 
 
 def sb3_test():
-    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv()))
+    state_shape = (24, 24)
+
+    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=(16, 16))))
     model = PPO("MlpPolicy", env, verbose=1)
     evaluate(model, env, num_steps=1000)
-    model.learn(total_timesteps=10000, log_interval=4)
+    model.learn(total_timesteps=50000, log_interval=4)
 
     evaluate(model, env, num_steps=1000)
 
-    # env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv()))
-    # obs = env.reset()
-    # plt.figure()
-    # obs_im = obs.reshape((8, 8))
-    # img_plot = plt.imshow(obs_im, interpolation="nearest", cmap=plt.cm.gray)
-    # plt.show(block=False)
-    # while True:
-    #     action, _states = model.predict(obs, deterministic=True)
-    #     obs, reward, done, info = env.step(action)
-    #     obs_im = obs.reshape((8, 8))
-    #     img_plot.set_data(obs_im)
-    #     plt.draw()
-    #     plt.pause(0.5)
-    #     if done:
-    #         # break
-    #         obs = env.reset()
+    obs = env.reset()
+    plt.figure()
+    obs_im = obs.reshape(state_shape)
+    img_plot = plt.imshow(obs_im, interpolation="nearest", cmap=plt.cm.gray)
+    plt.show(block=False)
+    while True:
+        action, _states = model.predict(obs, deterministic=True)
+        obs, reward, done, info = env.step(action)
+        obs_im = obs.reshape(state_shape)
+        img_plot.set_data(obs_im)
+        plt.draw()
+        plt.pause(0.2)
+        if done:
+            # break
+            obs = env.reset()
 
 
 if __name__ == '__main__':
-    run_test()
+    sb3_test()

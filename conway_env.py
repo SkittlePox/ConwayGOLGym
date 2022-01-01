@@ -50,7 +50,7 @@ class ConwayEnv(gym.Env):
         # This reward function encourages keeping at least one square 'on' which prevents termination
         # reward = float(np.sum(np.logical_not(self.goal_view).astype(np.int8)))
 
-        reward = 10.0 if done else 0.0
+        reward = 100.0 if done else -0.01
 
         return self.state, reward, done, {}
 
