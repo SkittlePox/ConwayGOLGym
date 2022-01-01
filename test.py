@@ -25,7 +25,8 @@ def run_test():
         plt.draw()
         plt.pause(0.1)
         if rrr[2]:
-            break
+            # break
+            env.reset()
     # print(rrr)
 
 
@@ -83,4 +84,4 @@ def sb3_test():
 
 
 if __name__ == '__main__':
-    sb3_test()
+    run_test()
