@@ -14,6 +14,8 @@ class ConwayEnv(gym.Env):
         self.action_space = gym.spaces.MultiBinary(action_shape)
         self.observation_space = gym.spaces.MultiBinary(state_shape)
 
+        self.num_action_pixels = 0
+
         if start_state is None:
             start_state = np.zeros(state_shape, dtype=np.int8)
         self.start_state = np.copy(start_state)
@@ -51,7 +53,13 @@ class ConwayEnv(gym.Env):
         # This reward function encourages keeping at least one square 'on' which prevents termination
         # reward = float(np.sum(np.logical_not(self.goal_view).astype(np.int8)))
 
-        reward = 100.0 if done else -0.01
+        reward = 10.0 if done else -0.1
+
+        # # Additional penalization for each action
+        # self.num_action_pixels += np.sum(action)
+        # penal = np.power(2, self.num_action_pixels*0.01) * np.sum(action) * 0.01
+        # penal = min(penal, 100)
+        # reward -= penal
 
         return self.state, reward, done, {}
 
@@ -61,10 +69,11 @@ class ConwayEnv(gym.Env):
                          self.goal_location[1]:self.goal_location[1] + 2]
 
     def reset(self):
-        # start_state = np.zeros(self.state_shape, dtype=np.int8)
-        self.state = np.copy(self.start_state)
+        self.state = np.zeros(self.state_shape, dtype=np.int8)
+        # self.state = np.copy(self.start_state)
         self.state_reset()
         self.goal_view.fill(1)
+        self.num_action_pixels = 0
         return self.state
 
 
