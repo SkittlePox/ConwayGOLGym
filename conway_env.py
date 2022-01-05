@@ -4,25 +4,30 @@ from lib import fft_convolve2d
 
 
 class ConwayEnv(gym.Env):
+    metadata = {"render.modes": ['rgb_array']}
 
     def __init__(self, action_shape=(3, 3), state_shape=(10, 10), goal_location=(6, 6), start_state=None, k=None):
         """
-        state_shape dimensions must be even!!
+        state_shape dimensions must be even, though not necessarily equal!!
         """
+
         self.action_shape = action_shape
         self.state_shape = state_shape
         self.action_space = gym.spaces.MultiBinary(action_shape)
         self.observation_space = gym.spaces.MultiBinary(state_shape)
 
-        self.num_action_pixels = 0
-
         if start_state is None:
             start_state = np.zeros(state_shape, dtype=np.int8)
+
         self.start_state = np.copy(start_state)
         self.state = start_state
         self.goal_location = goal_location
+        self.action_view = None
+        self.goal_view = None
         self.state_reset()
         self.goal_view.fill(1)
+
+        self.num_action_pixels = 0
 
         if k is None:
             m, n = state_shape
@@ -35,14 +40,13 @@ class ConwayEnv(gym.Env):
         np.logical_xor(action, self.action_view, out=self.action_view, dtype=np.int8, casting='unsafe')
 
         b = fft_convolve2d(self.state, self.k).round()
-        c = np.zeros(b.shape)
 
+        c = np.zeros(b.shape)
         c[np.where((b == 2) & (self.state == 1))] = 1
         c[np.where((b == 3) & (self.state == 1))] = 1
-
         c[np.where((b == 3) & (self.state == 0))] = 1
 
-        # Shit there is environment wrap-around. This fixes it
+        # This fixes environment wrap-around
         c[:, [0, -1]] = c[[0, -1]] = 0
 
         self.state = c.astype(np.int8)
@@ -53,9 +57,10 @@ class ConwayEnv(gym.Env):
         # This reward function encourages keeping at least one square 'on' which prevents termination
         # reward = float(np.sum(np.logical_not(self.goal_view).astype(np.int8)))
 
+        # This is a super simple reward function
         reward = 10.0 if done else -0.1
 
-        # # Additional penalization for each action
+        # This reward function adds an additional cost to taking some actions
         # self.num_action_pixels += np.sum(action)
         # penal = np.power(2, self.num_action_pixels*0.01) * np.sum(action) * 0.01
         # penal = min(penal, 100)
@@ -75,6 +80,14 @@ class ConwayEnv(gym.Env):
         self.goal_view.fill(1)
         self.num_action_pixels = 0
         return self.state
+
+    def render(self, mode='rgb_array'):
+        if mode == 'rgb_array':
+            s = self.state
+            # s = np.pad(s, pad_width=1)
+            s = np.kron(s, np.ones((20, 20)))
+            s = np.dstack((s, s, s)).astype(dtype=np.uint8) * 255
+            return s
 
 
 class FlatObservationWrapper(gym.ObservationWrapper):

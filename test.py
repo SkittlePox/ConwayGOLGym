@@ -1,11 +1,18 @@
 from conway_env import ConwayEnv, FlatObservationWrapper, FlatActionWrapper
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3 import PPO
+from gym.wrappers.monitoring.video_recorder import VideoRecorder
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 from lib.lib import load_text_board
 
 plt.ion()
+
+from wandb.integration.sb3 import WandbCallback
+import wandb
+
+# wandb.init(project='game-of-life', sync_tensorboard=True)
 
 
 def simple_test():
@@ -33,7 +40,7 @@ def run_test():
     # print(rrr)
 
 
-def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False):
+def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False, save_gif=False):
     """
     Evaluate a RL agent
     :param model: (BaseRLModel object) the RL Agent
@@ -47,6 +54,12 @@ def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False):
         obs_im = obs.reshape(state_shape)
         img_plot = plt.imshow(obs_im, interpolation="nearest", cmap=plt.cm.gray)
         plt.show(block=False)
+    if save_gif:
+        imgs = []
+        im = Image.fromarray(np.uint8(obs.reshape(state_shape))).convert('RGB')
+        imgs.append(im)
+        im.show()
+
     for i in range(num_steps):
         # _states are only useful when using LSTM policies
         action, _states = model.predict(obs)
@@ -58,12 +71,19 @@ def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False):
             img_plot.set_data(obs_im)
             plt.draw()
             plt.pause(0.2)
+        if save_gif:
+            im = Image.fromarray(np.uint8(obs.reshape(state_shape))).convert('RGB')
+            imgs.append(im)
 
         # Stats
         episode_rewards[-1] += reward
         if done:
+            if save_gif:
+                imgs[0].save('./ss.gif', save_all=True, append_images=imgs[1:], optimize=False)
+                break
             obs = env.reset()
             episode_rewards.append(0.0)
+
     # Compute mean reward for the last 100 episodes
     mean_100ep_reward = round(np.mean(episode_rewards[-100:]), 1)
     print("Mean reward:", mean_100ep_reward, "Num episodes:", len(episode_rewards))
@@ -74,14 +94,15 @@ def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False):
 def sb3_test():
     state_shape = (16, 16)
     goal_location = (12, 12)
-    timesteps = 1000000
+    timesteps = 120000
 
     env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
     model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./gol_results/")
     evaluate(model, env, num_steps=1000)
 
+    # model.learn(total_timesteps=timesteps, log_interval=4, callback=WandbCallback())
     model.learn(total_timesteps=timesteps, log_interval=4)
-    model.save(f"./models/PPO_state-{str(state_shape)}_goal-{(str(goal_location))}_timesteps-{timesteps}")
+    # model.save(f"./models/PPO_state-{str(state_shape)}_goal-{(str(goal_location))}_timesteps-{timesteps}")
 
     evaluate(model, env, num_steps=1000)
 
@@ -107,7 +128,28 @@ def sb3_eval():
     goal_location = (12, 12)
     model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
     env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
-    evaluate(model, env, num_steps=1000, render=True)
+    evaluate(model, env, num_steps=1000, render=False, save_gif=True)
+
+
+def render_test():
+    state_shape = (16, 16)
+    goal_location = (12, 12)
+    model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
+    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
+    vd = VideoRecorder(env, path="./videos/sss.mp4", enabled=True)
+    obs = env.reset()
+    for i in range(1000):
+        # _states are only useful when using LSTM policies
+        action, _states = model.predict(obs)
+
+        obs, reward, done, info = env.step(action)
+        vd.capture_frame()
+        # s = env.render(mode='rgb_array')
+        # print(s)
+        if done:
+            env.reset()
+    env.close()
+    vd.close()
 
 
 def board_read_test():
@@ -116,5 +158,6 @@ def board_read_test():
 
 if __name__ == '__main__':
     # sb3_test()
-    sb3_eval()
+    # sb3_eval()
+    render_test()
     # run_test()
