@@ -1,0 +1,119 @@
+
+Using cuda device
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-0-to-step-200.mp4
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-312-to-step-512.mp4
+Mean reward: -44.9 Num episodes: 2
+Logging to ./gol_results/PPO_11
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-1000-to-step-1200.mp4
+------------------------------------------
+| time/                   |              |
+|    fps                  | 856          |
+|    iterations           | 4            |
+|    time_elapsed         | 9            |
+|    total_timesteps      | 8192         |
+| train/                  |              |
+|    approx_kl            | 0.0075835083 |
+|    clip_fraction        | 0.0436       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -6.22        |
+|    explained_variance   | 0.513        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.65         |
+|    n_updates            | 30           |
+|    policy_gradient_loss | -0.0308      |
+|    value_loss           | 1.96         |
+------------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 820         |
+|    iterations           | 8           |
+|    time_elapsed         | 19          |
+|    total_timesteps      | 16384       |
+| train/                  |             |
+|    approx_kl            | 0.013208808 |
+|    clip_fraction        | 0.116       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -6.17       |
+|    explained_variance   | 0.77        |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.696       |
+|    n_updates            | 70          |
+|    policy_gradient_loss | -0.0426     |
+|    value_loss           | 1.54        |
+-----------------------------------------
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-25000-to-step-25200.mp4
+------------------------------------------
+| time/                   |              |
+|    fps                  | 794          |
+|    iterations           | 12           |
+|    time_elapsed         | 30           |
+|    total_timesteps      | 24576        |
+| train/                  |              |
+|    approx_kl            | 0.0098180175 |
+|    clip_fraction        | 0.0781       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -6.12        |
+|    explained_variance   | 0.683        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 1.09         |
+|    n_updates            | 110          |
+|    policy_gradient_loss | -0.0398      |
+|    value_loss           | 3.88         |
+------------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 777         |
+|    iterations           | 16          |
+|    time_elapsed         | 42          |
+|    total_timesteps      | 32768       |
+| train/                  |             |
+|    approx_kl            | 0.015128054 |
+|    clip_fraction        | 0.153       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -6.01       |
+|    explained_variance   | 0.782       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.783       |
+|    n_updates            | 150         |
+|    policy_gradient_loss | -0.05       |
+|    value_loss           | 2.86        |
+-----------------------------------------
+----------------------------------------
+| time/                   |            |
+|    fps                  | 768        |
+|    iterations           | 20         |
+|    time_elapsed         | 53         |
+|    total_timesteps      | 40960      |
+| train/                  |            |
+|    approx_kl            | 0.01663907 |
+|    clip_fraction        | 0.173      |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -5.93      |
+|    explained_variance   | 0.564      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 1.77       |
+|    n_updates            | 190        |
+|    policy_gradient_loss | -0.0523    |
+|    value_loss           | 2.88       |
+----------------------------------------
+-----------------------------------------
+| time/                   |             |
+|    fps                  | 760         |
+|    iterations           | 24          |
+|    time_elapsed         | 64          |
+|    total_timesteps      | 49152       |
+| train/                  |             |
+|    approx_kl            | 0.020372422 |
+|    clip_fraction        | 0.192       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -5.84       |
+|    explained_variance   | 0.751       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.957       |
+|    n_updates            | 230         |
+|    policy_gradient_loss | -0.0579     |
+|    value_loss           | 2.61        |
+-----------------------------------------
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-50000-to-step-50200.mp4
+Saving video to /home/ben/Code/game-of-life/videos/rl-video-step-52975-to-step-53175.mp4
+Mean reward: -8.3 Num episodes: 6

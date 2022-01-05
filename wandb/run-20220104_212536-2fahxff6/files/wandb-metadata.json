@@ -1,0 +1,24 @@
+{
+    "os": "Linux-4.15.0-142-generic-x86_64-with-debian-stretch-sid",
+    "python": "3.6.13",
+    "heartbeatAt": "2022-01-05T02:25:38.190445",
+    "startedAt": "2022-01-05T02:25:36.441007",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3060",
+    "gpu_count": 1,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "test.py",
+    "codePath": "test.py",
+    "git": {
+        "remote": "git@github.com:SkittlePox/game-of-life.git",
+        "commit": "88291d06506d22cdb5d24a4b1b853281589a2b5f"
+    },
+    "email": "skittlepox",
+    "root": "/home/ben/Code/game-of-life",
+    "host": "yoshi",
+    "username": "ben",
+    "executable": "/home/ben/anaconda3/envs/openai/bin/python"
+}

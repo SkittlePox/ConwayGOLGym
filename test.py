@@ -1,18 +1,18 @@
+import os
+
 from conway_env import ConwayEnv, FlatObservationWrapper, FlatActionWrapper
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv, VecVideoRecorder
 from gym.wrappers.monitoring.video_recorder import VideoRecorder
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from lib.lib import load_text_board
-
-plt.ion()
-
 from wandb.integration.sb3 import WandbCallback
 import wandb
 
-# wandb.init(project='game-of-life', sync_tensorboard=True)
+plt.ion()
 
 
 def simple_test():
@@ -92,35 +92,45 @@ def evaluate(model, env, num_steps=1000, state_shape=(16, 16), render=False, sav
 
 
 def sb3_test():
-    state_shape = (16, 16)
-    goal_location = (12, 12)
-    timesteps = 120000
+    config = {
+        "policy_type": "MlpPolicy",
+        "total_timesteps": 100000,
+        "env_name": "ConwayEnv",
+        "board_size": (16, 16),
+        "goal_location": (12, 12)
+    }
 
-    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
+    wandb.init(project='game-of-life', config=config, sync_tensorboard=True, monitor_gym=True)
+
+    env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=config['board_size'], goal_location=config['goal_location'])))
+    env = DummyVecEnv([lambda *args, **kwargs: env])
+    env = VecVideoRecorder(env, video_folder="./videos", record_video_trigger=lambda x: x % 25000 == 0, video_length=200)
     model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./gol_results/")
-    evaluate(model, env, num_steps=1000)
+    # evaluate(model, env, num_steps=1000)
 
-    # model.learn(total_timesteps=timesteps, log_interval=4, callback=WandbCallback())
-    model.learn(total_timesteps=timesteps, log_interval=4)
+    model.learn(total_timesteps=config['total_timesteps'], log_interval=4, callback=WandbCallback())
+    # model.learn(total_timesteps=timesteps, log_interval=4)
     # model.save(f"./models/PPO_state-{str(state_shape)}_goal-{(str(goal_location))}_timesteps-{timesteps}")
+    env.close()
+    model.save(os.path.join(wandb.run.dir, "model.zip"))
 
-    evaluate(model, env, num_steps=1000)
+    # evaluate(model, env, num_steps=1000)
 
-    obs = env.reset()
-    plt.figure()
-    obs_im = obs.reshape(state_shape)
-    img_plot = plt.imshow(obs_im, interpolation="nearest", cmap=plt.cm.gray)
-    plt.show(block=False)
-    while True:
-        action, _states = model.predict(obs, deterministic=True)
-        obs, reward, done, info = env.step(action)
-        obs_im = obs.reshape(state_shape)
-        img_plot.set_data(obs_im)
-        plt.draw()
-        plt.pause(0.2)
-        if done:
-            # break
-            obs = env.reset()
+    # obs = env.reset()
+    # plt.figure()
+    # obs_im = obs.reshape(config['board_size'])
+    # img_plot = plt.imshow(obs_im, interpolation="nearest", cmap=plt.cm.gray)
+    # plt.show(block=False)
+    # while True:
+    #     action, _states = model.predict(obs, deterministic=True)
+    #     obs, reward, done, info = env.step(action)
+    #     obs_im = obs.reshape(config['board_size'])
+    #     img_plot.set_data(obs_im)
+    #     plt.draw()
+    #     plt.pause(0.2)
+    #     if done:
+    #         # break
+    #         obs = env.reset()
 
 
 def sb3_eval():
@@ -128,7 +138,9 @@ def sb3_eval():
     goal_location = (12, 12)
     model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
     env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
-    evaluate(model, env, num_steps=1000, render=False, save_gif=True)
+
+    print(type(env))
+    # evaluate(model, env, num_steps=1000, render=False, save_gif=True)
 
 
 def render_test():
@@ -157,7 +169,7 @@ def board_read_test():
 
 
 if __name__ == '__main__':
-    # sb3_test()
+    sb3_test()
     # sb3_eval()
-    render_test()
+    # render_test()
     # run_test()

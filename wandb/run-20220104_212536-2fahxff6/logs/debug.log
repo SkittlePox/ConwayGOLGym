@@ -1,0 +1,185 @@
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_setup.py:_flush():71] setting env: {}
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_setup.py:_flush():71] setting login settings: {}
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_init.py:_log_setup():371] Logging user logs to /home/ben/Code/game-of-life/wandb/run-20220104_212536-2fahxff6/logs/debug.log
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_init.py:_log_setup():372] Logging internal logs to /home/ben/Code/game-of-life/wandb/run-20220104_212536-2fahxff6/logs/debug-internal.log
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_init.py:init():404] calling init triggers
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_init.py:init():411] wandb.init called with sweep_config: {}
+config: {'policy_type': 'MlpPolicy', 'total_timesteps': 50000, 'env_name': 'ConwayEnv', 'board_size': (16, 16), 'goal_location': (12, 12)}
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [wandb_init.py:init():460] starting backend
+2022-01-04 21:25:36,442 INFO    MainThread:22833 [backend.py:_multiprocessing_setup():101] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2022-01-04 21:25:36,453 INFO    MainThread:22833 [backend.py:ensure_launched():216] starting backend process...
+2022-01-04 21:25:36,460 INFO    MainThread:22833 [backend.py:ensure_launched():222] started backend process with pid: 22858
+2022-01-04 21:25:36,460 INFO    MainThread:22833 [wandb_init.py:init():469] backend started and connected
+2022-01-04 21:25:36,464 INFO    MainThread:22833 [wandb_init.py:init():533] updated telemetry
+2022-01-04 21:25:36,482 INFO    MainThread:22833 [wandb_init.py:init():563] communicating current version
+2022-01-04 21:25:37,136 INFO    MainThread:22833 [wandb_init.py:init():568] got version response 
+2022-01-04 21:25:37,136 INFO    MainThread:22833 [wandb_init.py:init():578] communicating run to backend with 30 second timeout
+2022-01-04 21:25:37,298 INFO    MainThread:22833 [wandb_init.py:init():606] starting run threads in backend
+2022-01-04 21:25:40,284 INFO    MainThread:22833 [wandb_run.py:_console_start():1810] atexit reg
+2022-01-04 21:25:40,284 INFO    MainThread:22833 [wandb_run.py:_redirect():1684] redirect: SettingsConsole.REDIRECT
+2022-01-04 21:25:40,286 INFO    MainThread:22833 [wandb_run.py:_redirect():1689] Redirecting console.
+2022-01-04 21:25:40,289 INFO    MainThread:22833 [wandb_run.py:_redirect():1745] Redirects installed.
+2022-01-04 21:25:40,289 INFO    MainThread:22833 [wandb_init.py:init():633] run started, returning control to user process
+2022-01-04 21:25:43,327 INFO    MainThread:22833 [wandb_run.py:_tensorboard_callback():1029] tensorboard callback: ./gol_results/PPO_11, None
+2022-01-04 21:25:43,331 INFO    MainThread:22833 [wandb_run.py:_config_callback():956] config_cb None None {'algo': 'PPO', 'policy_class': "<class 'stable_baselines3.common.policies.ActorCriticPolicy'>", 'device': 'cuda', 'env': '<stable_baselines3.common.vec_env.vec_video_recorder.VecVideoRecorder object at 0x7fce0c845fd0>', '_vec_normalize_env': 'None', 'verbose': 1, 'policy_kwargs': '{}', 'observation_space': 'MultiBinary(256)', 'action_space': 'MultiBinary(9)', 'n_envs': 1, 'num_timesteps': 0, '_total_timesteps': 50000, 'eval_env': 'None', 'seed': 'None', 'action_noise': 'None', 'start_time': 1641349543.229862, 'policy': 'ActorCriticPolicy(\n  (features_extractor): FlattenExtractor(\n    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (mlp_extractor): MlpExtractor(\n    (shared_net): Sequential()\n    (policy_net): Sequential(\n      (0): Linear(in_features=256, out_features=64, bias=True)\n      (1): Tanh()\n      (2): Linear(in_features=64, out_features=64, bias=True)\n      (3): Tanh()\n    )\n    (value_net): Sequential(\n      (0): Linear(in_features=256, out_features=64, bias=True)\n      (1): Tanh()\n      (2): Linear(in_features=64, out_features=64, bias=True)\n      (3): Tanh()\n    )\n  )\n  (action_net): Linear(in_features=64, out_features=9, bias=True)\n  (value_net): Linear(in_features=64, out_features=1, bias=True)\n)', 'learning_rate': 0.0003, 'tensorboard_log': './gol_results/', 'lr_schedule': '<function constant_fn.<locals>.func at 0x7fce821e72f0>', '_last_obs': '[[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n  0 0 0 0]]', '_last_episode_starts': '[ True]', '_last_original_obs': 'None', '_episode_num': 0, 'use_sde': 'False', 'sde_sample_freq': -1, '_current_progress_remaining': 1, 'ep_info_buffer': 'deque([], maxlen=100)', 'ep_success_buffer': 'deque([], maxlen=100)', '_n_updates': 0, '_logger': '<stable_baselines3.common.logger.Logger object at 0x7fce0c1c56d8>', '_custom_logger': 'False', 'n_steps': 2048, 'gamma': 0.99, 'gae_lambda': 0.95, 'ent_coef': 0.0, 'vf_coef': 0.5, 'max_grad_norm': 0.5, 'rollout_buffer': '<stable_baselines3.common.buffers.RolloutBuffer object at 0x7fce82459e10>', 'batch_size': 64, 'n_epochs': 10, 'clip_range': '<function constant_fn.<locals>.func at 0x7fce333991e0>', 'clip_range_vf': 'None', 'target_kl': 'None'}
+2022-01-04 21:26:54,024 INFO    MainThread:22833 [wandb_run.py:_atexit_cleanup():1780] got exitcode: 0
+2022-01-04 21:26:54,026 INFO    MainThread:22833 [wandb_run.py:_restore():1752] restore
+2022-01-04 21:26:56,895 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 11
+  other_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 239100
+}
+
+2022-01-04 21:26:57,007 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 11
+  other_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 239100
+}
+
+2022-01-04 21:27:02,108 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: None
+2022-01-04 21:27:03,617 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 11
+  other_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 239100
+}
+
+2022-01-04 21:27:03,788 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 11
+  other_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 239100
+}
+
+2022-01-04 21:27:04,368 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,470 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,572 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 239100
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,673 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,775 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,876 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:04,978 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:05,079 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:05,181 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:05,392 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+
+2022-01-04 21:27:05,742 INFO    MainThread:22833 [wandb_run.py:_wait_for_finish():1912] got exit ret: done: true
+exit_result {
+}
+file_counts {
+  wandb_count: 6
+  media_count: 11
+  other_count: 2
+}
+pusher_stats {
+  uploaded_bytes: 777970
+  total_bytes: 777970
+}
+local_info {
+}
+
+2022-01-04 21:27:06,995 INFO    MainThread:22833 [wandb_run.py:_append_history():2130] rendering history
+2022-01-04 21:27:06,995 INFO    MainThread:22833 [wandb_run.py:_append_summary():2085] rendering summary
+2022-01-04 21:27:06,996 INFO    MainThread:22833 [wandb_run.py:_append_files():2180] logging synced files
