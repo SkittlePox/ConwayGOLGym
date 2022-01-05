@@ -22,12 +22,14 @@ class ConwayEnv(gym.Env):
         self.start_state = np.copy(start_state)
         self.state = start_state
         self.goal_location = goal_location
+
         self.action_view = None
         self.goal_view = None
         self.state_reset()
         self.goal_view.fill(1)
 
         self.num_action_pixels = 0
+        self.prior_action = np.zeros(action_shape)
 
         if k is None:
             m, n = state_shape
@@ -37,6 +39,7 @@ class ConwayEnv(gym.Env):
 
     def step(self, action):
         # apply actions
+        self.prior_action = action
         np.logical_xor(action, self.action_view, out=self.action_view, dtype=np.int8, casting='unsafe')
 
         b = fft_convolve2d(self.state, self.k).round()
@@ -83,10 +86,18 @@ class ConwayEnv(gym.Env):
 
     def render(self, mode='rgb_array'):
         if mode == 'rgb_array':
-            s = self.state
+            kron_size = 20
+            s = np.copy(self.state)
             # s = np.pad(s, pad_width=1)
-            s = np.kron(s, np.ones((20, 20)))
+            s = np.kron(s, np.ones((kron_size, kron_size)))
             s = np.dstack((s, s, s)).astype(dtype=np.uint8) * 255
+
+            # separate action layer
+
+            # render_action_view = s[2 * kron_size:2 * kron_size + self.action_shape[0] * kron_size,
+            #                      2 * kron_size:2 * kron_size + self.action_shape[1] * kron_size]
+            # render_action = np.kron(self.prior_action, np.ones((kron_size, kron_size)))
+
             return s
 
 

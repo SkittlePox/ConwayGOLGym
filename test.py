@@ -136,10 +136,14 @@ def sb3_test():
 def sb3_eval():
     state_shape = (16, 16)
     goal_location = (12, 12)
-    model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
+    # model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
     env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
-
-    print(type(env))
+    obs = env.reset()
+    env.step(env.action_space.sample())
+    im = env.render('rgb_array')
+    img = Image.fromarray(im)
+    img.show()
+    # print(type(env))
     # evaluate(model, env, num_steps=1000, render=False, save_gif=True)
 
 
@@ -148,7 +152,7 @@ def render_test():
     goal_location = (12, 12)
     model = PPO.load("models/PPO_state-(16, 16)_goal-(12, 12)_timesteps-1000000")
     env = FlatActionWrapper(FlatObservationWrapper(ConwayEnv(state_shape=state_shape, goal_location=goal_location)))
-    vd = VideoRecorder(env, path="./videos/sss.mp4", enabled=True)
+    vd = VideoRecorder(env, path="./videos/sample_env.mp4", enabled=True)
     obs = env.reset()
     for i in range(1000):
         # _states are only useful when using LSTM policies
@@ -169,7 +173,7 @@ def board_read_test():
 
 
 if __name__ == '__main__':
-    sb3_test()
-    # sb3_eval()
+    # sb3_test()
+    sb3_eval()
     # render_test()
     # run_test()
